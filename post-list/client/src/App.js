@@ -34,11 +34,11 @@ function App() {
           });
         }
       });
-  });
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    setAuthState({username: "", id: 0, status: false, });
+    setAuthState({ username: "", id: 0, status: false });
   };
 
   return (
