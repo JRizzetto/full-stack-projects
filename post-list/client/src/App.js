@@ -18,11 +18,12 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/auth/auth", {
-        headers: {
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      })
+      .get("http://localhost:3001/auth/auth",
+        {
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        })
       .then((response) => {
         if (response.data.error) {
           setAuthState({ ...authState, status: false });
@@ -46,17 +47,20 @@ function App() {
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
           <div className="navbar">
-            <Link to="/"> Home Page</Link>
-            <Link to="/createpost"> Create A Post</Link>
-            {!authState.status ? (
-              <>
-                <Link to="/login"> Login</Link>
-                <Link to="/registration"> Registration </Link>
-              </>
-            ) : (
-              <button onClick={logout}>Logout</button>
-            )}
-            <h1>{authState.username}</h1>
+            <div className="links">
+              <Link to="/"> Home Page</Link>
+              <Link to="/createpost"> Create A Post</Link>
+              {!authState.status && (
+                <>
+                  <Link to="/login"> Login</Link>
+                  <Link to="/registration"> Registration</Link>
+                </>
+              )}
+            </div>
+            <div className="loggedInContainer">
+              <h1>{authState.username} </h1>
+              {authState.status && <button onClick={logout}> Logout</button>}
+            </div>
           </div>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -66,6 +70,7 @@ function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </Router>
+
       </AuthContext.Provider>
     </div>
   );

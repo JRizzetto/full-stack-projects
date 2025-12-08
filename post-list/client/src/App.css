@@ -128,10 +128,11 @@ span {
   justify-content: flex-end;
   align-items: center;
 }
+
 .navbar a {
   margin-left: 20px;
   text-decoration: none;
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .navbar button {

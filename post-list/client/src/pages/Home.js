@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const [listofPosts, setListOfPosts] = useState([]);
+  const [listOfPosts, setListOfPosts] = useState([]);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -25,13 +25,27 @@ function Home() {
         }
       )
       .then((response) => {
-        alert(response.data);
+        setListOfPosts(
+          listOfPosts.map((post) => {
+            if (post.id === postId) {
+              const likesArray = post.Likes ? [...post.Likes] : [];
+              if (response.data) {
+                return { ...post, Likes: [...likesArray, 0] };
+              } else {
+                likesArray.pop();
+                return { ...post, Likes: likesArray };
+              }
+            } else {
+              return post;
+            }
+          })
+        );
       });
   };
 
   return (
     <div>
-      {listofPosts.map((value, key) => {
+      {listOfPosts.map((value, key) => {
         return (
           <div key={key} className="post">
             <div className="title">{value.title}</div>
@@ -52,7 +66,7 @@ function Home() {
               >
                 Like
               </button>
-              <label>{value.Likes.length}</label>
+              <label>{value.Likes?.length || 0}</label>
             </div>
           </div>
         );
