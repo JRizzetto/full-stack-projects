@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import { AuthContext } from "../helpers/AuthContext";
 
 function Home() {
   const [listOfPosts, setListOfPosts] = useState([]);
+  const [likedPosts, setLikedPosts] = useState([]);
+  const { authState } = useContext(AuthContext);
+
   let navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/posts").then((response) => {
-      setListOfPosts(response.data);
-    });
+    if (!localStorage.getItem("accessToken")) {
+      navigate("/login");
+    } else {
+      axios
+        .get("http://localhost:3001/posts", {
+          headers: { accessToken: localStorage.getItem("accessToken") },
+        })
+        .then((response) => {
+          setListOfPosts(response.data.listOfPosts);
+          setLikedPosts(
+            response.data.likedPosts.map((like) => {
+              return like.PostId;
+            })
+          );
+        });
+    }
   }, []);
 
   const likeAPost = (postId) => {
@@ -18,18 +36,14 @@ function Home() {
       .post(
         "http://localhost:3001/likes",
         { PostId: postId },
-        {
-          headers: {
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
+        { headers: { accessToken: localStorage.getItem("accessToken") } }
       )
       .then((response) => {
         setListOfPosts(
           listOfPosts.map((post) => {
             if (post.id === postId) {
               const likesArray = post.Likes ? [...post.Likes] : [];
-              if (response.data) {
+              if (response.data.liked === true) {
                 return { ...post, Likes: [...likesArray, 0] };
               } else {
                 likesArray.pop();
@@ -40,6 +54,16 @@ function Home() {
             }
           })
         );
+
+        if (likedPosts.includes(postId)) {
+          setLikedPosts(
+            likedPosts.filter((id) => {
+              return id != postId;
+            })
+          );
+        } else {
+          setLikedPosts([...likedPosts, postId]);
+        }
       });
   };
 
@@ -58,15 +82,20 @@ function Home() {
               {value.postText}
             </div>
             <div className="footer">
-              {value.username}
-              <button
-                onClick={() => {
-                  likeAPost(value.id);
-                }}
-              >
-                Like
-              </button>
-              <label>{value.Likes?.length || 0}</label>
+              <div className="username">
+                <Link to={`/profile/${value.UserId}`}>{value.username}</Link>
+              </div>
+              <div className="buttons">
+                <ThumbUpAltIcon
+                  onClick={() => {
+                    likeAPost(value.id);
+                  }}
+                  className={
+                    likedPosts.includes(value.id) ? "unlikeBttn" : "likeBttn"
+                  }
+                />
+                <label>{value.Likes ? value.Likes.length : 0}</label>
+              </div>
             </div>
           </div>
         );

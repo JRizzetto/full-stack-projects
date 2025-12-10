@@ -5,9 +5,12 @@ import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
+import PageNotFound from "./pages/PageNotFound";
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Profile from "./pages/Profile";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -18,12 +21,11 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/auth/auth",
-        {
-          headers: {
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        })
+      .get("http://localhost:3001/auth/auth", {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      })
       .then((response) => {
         if (response.data.error) {
           setAuthState({ ...authState, status: false });
@@ -48,12 +50,15 @@ function App() {
         <Router>
           <div className="navbar">
             <div className="links">
-              <Link to="/"> Home Page</Link>
-              <Link to="/createpost"> Create A Post</Link>
-              {!authState.status && (
+              {!authState.status ? (
                 <>
                   <Link to="/login"> Login</Link>
                   <Link to="/registration"> Registration</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/"> Home Page</Link>
+                  <Link to="/createpost"> Create A Post</Link>
                 </>
               )}
             </div>
@@ -63,14 +68,17 @@ function App() {
             </div>
           </div>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/createpost" element={<CreatePost />} />
-            <Route path="/post/:id" element={<Post />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" exact Component={Home} />
+            <Route path="/createpost" exact Component={CreatePost} />
+            <Route path="/post/:id" exact Component={Post} />
+            <Route path="/registration" exact Component={Registration} />
+            <Route path="/login" exact Component={Login} />
+            <Route path="/profile/:id" exact Component={Profile} />
+            <Route path="/changepassword" exact Component={ChangePassword} />
+
+            <Route path="*" exact Component={PageNotFound} />
           </Routes>
         </Router>
-
       </AuthContext.Provider>
     </div>
   );
