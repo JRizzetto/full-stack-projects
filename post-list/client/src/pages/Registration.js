@@ -2,11 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 function Registration() {
-  const navigate = useNavigate();
-
   const initialValues = {
     username: "",
     password: "",
@@ -17,18 +14,10 @@ function Registration() {
     password: Yup.string().min(4).max(20).required(),
   });
 
-  const onSubmit = (data, { resetForm }) => {
-    axios
-      .post("https://full-stack-post-list.onrender.com/auth", data)
-      .then((response) => {
-        alert("User registered successfully!"); // mensagem de sucesso
-        resetForm(); // limpa os campos
-        navigate("/login"); // redireciona para login
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Error registering user");
-      });
+  const onSubmit = (data) => {
+    axios.post("http://localhost:3001/auth", data).then(() => {
+      console.log(data);
+    });
   };
 
   return (
@@ -42,20 +31,20 @@ function Registration() {
           <label>Username: </label>
           <ErrorMessage name="username" component="span" />
           <Field
-            autoComplete="off"
+            autocomplete="off"
             id="inputCreatePost"
             name="username"
             placeholder="(Ex. John123...)"
           />
 
-          <label>Password: </label>
+          <label>password: </label>
           <ErrorMessage name="password" component="span" />
           <Field
-            autoComplete="off"
+            autocomplete="off"
             type="password"
             id="inputCreatePost"
             name="password"
-            placeholder="Your Password..."
+            placeholder="your Password..."
           />
 
           <button type="submit">Register</button>
