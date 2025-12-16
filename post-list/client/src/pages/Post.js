@@ -167,6 +167,7 @@ function Post() {
             return (
               <div key={key} className="comment">
                 {comment.commentBody}
+                <br />
                 <label>Username: {comment.username} </label>
                 {authState.username === comment.username && (
                   <button
