@@ -11,13 +11,17 @@ function Profile() {
   const { authState } = useContext(AuthContext);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/auth/basicinfo/${id}`).then((response) => {
-      setusername(response.data.username);
-    });
+    axios
+      .get(`https://full-stack-post-list.onrender.com/auth/basicinfo/${id}`)
+      .then((response) => {
+        setusername(response.data.username);
+      });
 
-    axios.get(`http://localhost:3001/posts/byUserId/${id}`).then((response) => {
-      setListOfPosts(response.data);
-    });
+    axios
+      .get(`https://full-stack-post-list.onrender.com/posts/byUserId/${id}`)
+      .then((response) => {
+        setListOfPosts(response.data);
+      });
   }, []);
 
   return (
