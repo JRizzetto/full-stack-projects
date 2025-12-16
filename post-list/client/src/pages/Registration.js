@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Registration() {
   const initialValues = {
@@ -14,11 +15,13 @@ function Registration() {
     password: Yup.string().min(4).max(20).required(),
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
     axios
       .post("https://full-stack-post-list.onrender.com/auth", data)
       .then(() => {
-        console.log(data);
+        navigate("/login");
       });
   };
 
