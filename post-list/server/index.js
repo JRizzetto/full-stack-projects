@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+require("dotenv").config();
 
 app.use(express.json());
 app.use(cors());
@@ -22,8 +23,13 @@ app.use("/likes", likesRouter);
 
 const PORT = process.env.PORT || 3001;
 
-db.sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+db.sequelize
+  .sync()
+  .then(() => {
+    app.listen(process.env.PORT || 3001, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
-});
