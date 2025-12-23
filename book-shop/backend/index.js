@@ -1,15 +1,18 @@
 import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Entendido123!",
-  database: "book_list",
-  port: 3306,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
 });
 
 app.use(express.json());
@@ -37,8 +40,39 @@ app.post("/books", (req, res) => {
   ];
 
   db.query(q, [values], (err, data) => {
-    if (err) return res.json(err);
+    if (err) {
+      console.log(err); // 🔴 você vai ver o erro de tamanho aqui
+      return res.json(err);
+    }
     return res.json("Book has been create sucessfully");
+  });
+});
+
+app.delete("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+  const q = "DELETE FROM books WHERE id = ?";
+
+  db.query(q, [bookId], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Book has been deleted sucessfully");
+  });
+});
+
+app.put("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+  const q =
+    "UPDATE books SET `title` = ?, `desc` = ?, `price` = ?, `cover` = ? WHERE id = ?";
+
+  const values = [
+    req.body.title,
+    req.body.desc,
+    req.body.price,
+    req.body.cover,
+  ];
+
+  db.query(q, [...values, bookId], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Book has been updated sucessfully");
   });
 });
 
