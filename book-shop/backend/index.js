@@ -7,19 +7,18 @@ dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+app.use(cors());
+
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || process.env.MYSQLHOST,
-  user: process.env.DB_USER || process.env.MYSQLUSER,
-  password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD,
-  database: process.env.DB_NAME || process.env.MYSQLDATABASE,
-  port: process.env.DB_PORT || process.env.MYSQLPORT || 3306,
-  // Adicionar opções importantes para deploy
-  ssl: {
-    rejectUnauthorized: false, // Necessário para Railway
-  },
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
 });
 
-// Testar conexão
+// Teste de conexão
 db.connect((err) => {
   if (err) {
     console.error("Erro ao conectar ao MySQL:", err);
@@ -28,77 +27,19 @@ db.connect((err) => {
   console.log("Conectado ao MySQL no Railway!");
 });
 
-app.use(express.json());
-app.use(cors());
-
-// 🔴 CORRIGIR O CORS para funcionar com Vercel
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "https://seu-frontend.vercel.app"],
-    credentials: true,
-  })
-);
-
 app.get("/", (req, res) => {
-  res.json("Hello this is the backend!");
+  res.json("Backend OK 🚀");
 });
 
 app.get("/books", (req, res) => {
-  const q = "SELECT * FROM books";
-  db.query(q, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
-  });
-});
-
-app.post("/books", (req, res) => {
-  const q = "INSERT INTO books (`title`, `desc`, `price`, `cover`) VALUES (?)";
-  const values = [
-    req.body.title,
-    req.body.desc,
-    req.body.price,
-    req.body.cover,
-  ];
-
-  db.query(q, [values], (err, data) => {
-    if (err) {
-      console.log(err); // 🔴 você vai ver o erro de tamanho aqui
-      return res.json(err);
-    }
-    return res.json("Book has been create sucessfully");
-  });
-});
-
-app.delete("/books/:id", (req, res) => {
-  const bookId = req.params.id;
-  const q = "DELETE FROM books WHERE id = ?";
-
-  db.query(q, [bookId], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("Book has been deleted sucessfully");
-  });
-});
-
-app.put("/books/:id", (req, res) => {
-  const bookId = req.params.id;
-  const q =
-    "UPDATE books SET `title` = ?, `desc` = ?, `price` = ?, `cover` = ? WHERE id = ?";
-
-  const values = [
-    req.body.title,
-    req.body.desc,
-    req.body.price,
-    req.body.cover,
-  ];
-
-  db.query(q, [...values, bookId], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("Book has been updated sucessfully");
+  db.query("SELECT * FROM books", (err, data) => {
+    if (err) return res.status(500).json(err);
+    res.json(data);
   });
 });
 
 const PORT = process.env.PORT || 10000;
 
-app.listen(8800, () => {
+app.listen(PORT, () => {
   console.log("BACKEND RUNNING ON PORT", PORT);
 });
