@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import.meta.env.VITE_API_URL;
 
 const Books = () => {
   const [books, setBooks] = useState([]);
@@ -10,7 +11,7 @@ const Books = () => {
   useEffect(() => {
     const fetchAllBooks = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/books");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/books`);
         setBooks(res.data);
       } catch (error) {
         console.log(err);
@@ -21,7 +22,7 @@ const Books = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("http://localhost:8800/books/" + id);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/books/` + id);
       window.location.reload();
     } catch (error) {}
   };

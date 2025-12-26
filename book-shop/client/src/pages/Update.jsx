@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import.meta.env.VITE_API_URL;
 
 const Update = () => {
   const [book, setBook] = useState({
@@ -23,7 +24,7 @@ const Update = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:8800/books/" + bookId, book);
+      await axios.put(`${import.meta.env.VITE_API_URL}/books/${bookId}`, book);
       navigate("/");
     } catch (error) {
       console.log(error);
