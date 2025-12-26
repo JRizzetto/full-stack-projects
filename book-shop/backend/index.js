@@ -7,10 +7,37 @@ dotenv.config();
 
 const app = express();
 
-const db = mysql.createConnection(process.env.DATABASE_URL);
+const db = mysql.createConnection({
+  host: process.env.DB_HOST || process.env.MYSQLHOST,
+  user: process.env.DB_USER || process.env.MYSQLUSER,
+  password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD,
+  database: process.env.DB_NAME || process.env.MYSQLDATABASE,
+  port: process.env.DB_PORT || process.env.MYSQLPORT || 3306,
+  // Adicionar opções importantes para deploy
+  ssl: {
+    rejectUnauthorized: false, // Necessário para Railway
+  },
+});
+
+// Testar conexão
+db.connect((err) => {
+  if (err) {
+    console.error("Erro ao conectar ao MySQL:", err);
+    return;
+  }
+  console.log("Conectado ao MySQL no Railway!");
+});
 
 app.use(express.json());
 app.use(cors());
+
+// 🔴 CORRIGIR O CORS para funcionar com Vercel
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://seu-frontend.vercel.app"],
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.json("Hello this is the backend!");
@@ -70,7 +97,7 @@ app.put("/books/:id", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 8800;
+const PORT = process.env.PORT || 10000;
 
 app.listen(8800, () => {
   console.log("BACKEND RUNNING ON PORT", PORT);
