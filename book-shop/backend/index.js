@@ -7,9 +7,15 @@ dotenv.config();
 
 const app = express();
 
+/* =======================
+   Middlewares
+======================= */
 app.use(express.json());
 app.use(cors());
 
+/* =======================
+   Database Connection
+======================= */
 const db = mysql.createConnection({
   host: process.env.MYSQLHOST,
   user: process.env.MYSQLUSER,
@@ -18,7 +24,6 @@ const db = mysql.createConnection({
   port: process.env.MYSQLPORT,
 });
 
-// Teste de conexão
 db.connect((err) => {
   if (err) {
     console.error("Erro ao conectar ao MySQL:", err);
@@ -27,17 +32,31 @@ db.connect((err) => {
   console.log("Conectado ao MySQL no Railway!");
 });
 
+/* =======================
+   Routes
+======================= */
+
+// Health check
 app.get("/", (req, res) => {
-  res.json("Backend OK 🚀");
+  res.json({ status: "Backend OK 🚀" });
 });
 
+// GET - List books
 app.get("/books", (req, res) => {
-  db.query("SELECT * FROM books", (err, data) => {
-    if (err) return res.status(500).json(err);
+  const q = "SELECT * FROM books";
+
+  db.query(q, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
     res.json(data);
   });
 });
 
+/* =======================
+   Server
+======================= */
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
