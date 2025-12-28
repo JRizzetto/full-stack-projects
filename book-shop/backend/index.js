@@ -79,6 +79,54 @@ app.post("/books", (req, res) => {
   });
 });
 
+// DELETE - Remove book
+app.delete("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+
+  const q = "DELETE FROM books WHERE id = ?";
+
+  db.query(q, [bookId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Livro não encontrado" });
+    }
+
+    res.json({ message: "Livro removido com sucesso 🗑️" });
+  });
+});
+
+// PUT - Update book
+app.put("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+
+  const { title, desc, price, cover } = req.body;
+
+  const q = `
+    UPDATE books 
+    SET title = ?, \`desc\` = ?, price = ?, cover = ?
+    WHERE id = ?
+  `;
+
+  const values = [title, desc, price, cover, bookId];
+
+  db.query(q, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Livro não encontrado" });
+    }
+
+    res.json({ message: "Livro atualizado com sucesso ✏️" });
+  });
+});
+
 /* =======================
    Server
 ======================= */
