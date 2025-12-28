@@ -54,6 +54,31 @@ app.get("/books", (req, res) => {
   });
 });
 
+// POST - Create book
+app.post("/books", (req, res) => {
+  const { title, desc, price, cover } = req.body;
+
+  if (!title || !desc || !price || !cover) {
+    return res.status(400).json("Todos os campos são obrigatórios");
+  }
+
+  const q = "INSERT INTO books (`title`, `desc`, `price`, `cover`) VALUES (?)";
+
+  const values = [title, desc, price, cover];
+
+  db.query(q, [values], (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+
+    res.status(201).json({
+      message: "Livro criado com sucesso 📚",
+      id: data.insertId,
+    });
+  });
+});
+
 /* =======================
    Server
 ======================= */
