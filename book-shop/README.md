@@ -1,16 +1,19 @@
-# 📚 Books Shop – Full Stack
+# 📚 Book Shop Full Stack
 
-Aplicação **full stack** para cadastro, edição e remoção de livros, desenvolvida com foco em praticar **React**, **API REST** e **integração com banco de dados MySQL**.
+## 🧩 Sobre o projeto
+
+O **Book Shop Full Stack** é uma aplicação full‑stack desenvolvida com o objetivo de estudo e portfólio. O sistema permite o **cadastro, edição, listagem e remoção de livros**, simulando um cenário real de integração entre frontend, backend e banco de dados em produção.
+
+Todo o projeto foi pensado para seguir boas práticas de desenvolvimento, separação de responsabilidades e deploy em serviços amplamente utilizados no mercado.
 
 ---
 
 ## 🚀 Funcionalidades
 
-- 📖 Listar livros cadastrados
-- ➕ Adicionar novos livros
-- ✏️ Atualizar informações de um livro
-- 🗑️ Remover livros
-- 🖼️ Exibição da capa do livro via URL
+- ✅ Listar livros cadastrados
+- ✅ Adicionar novos livros
+- ✅ Editar informações de livros
+- ✅ Remover livros
 
 ---
 
@@ -18,133 +21,88 @@ Aplicação **full stack** para cadastro, edição e remoção de livros, desenv
 
 ### Frontend
 
-- React
-- Vite
-- Axios
-- React Router DOM
-- Hooks: `useState`, `useEffect`, `useNavigate`, `useLocation`
+- **React**
+- **Vite**
+- **Axios**
+- **React Router (`useNavigate`)**
+- **CSS**
 
 ### Backend
 
-- Node.js
-- Express
-- Cors
+- **Node.js**
+- **Express**
+- **MySQL**
+- **dotenv**
+- **cors**
 
-### Banco de Dados
+### Infraestrutura / Deploy
 
-- MySQL
-
----
-
-## 📁 Estrutura do Projeto
-
-```
-book-shop/
-│
-├── backend/
-│   ├── node_modules/
-│   ├── .env
-│   ├── index.js
-│   ├── package.json
-│   └── package-lock.json
-│
-├── client/
-│   ├── node_modules/
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── pages/
-│   │   │   ├── Books.jsx
-│   │   │   ├── Add.jsx
-│   │   │   └── Update.jsx
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── style.css
-│   ├── index.html
-│   ├── vite.config.js
-│   └── package.json
-│
-└── README.md
-```
+- **Frontend:** Vercel
+- **Backend:** Render
+- **Banco de Dados:** MySQL (Railway)
 
 ---
 
-## ⚙️ Variáveis de Ambiente
+## 🌐 Links do Projeto
 
-No backend, crie um arquivo `.env` com as seguintes variáveis:
-
-```env
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=sua_senha
-DB_NAME=book_list
-DB_PORT=3306
-```
-
-> ⚠️ O arquivo `.env` está listado no `.gitignore` e **não deve ser versionado**.
+- 🔗 **Frontend (Vercel):** [https://full-stack-projects-two-xi.vercel.app/](https://full-stack-projects-two-xi.vercel.app/)
+- 🔗 **Backend (Render):** [https://book-shop-backend-di06.onrender.com](https://book-shop-backend-di06.onrender.com)
+- 🔗 **Repositório GitHub:** [https://github.com/JRizzetto/full-stack-projects/tree/main/book-shop](https://github.com/JRizzetto/full-stack-projects/tree/main/book-shop)
 
 ---
 
-## ▶️ Como Rodar o Projeto Localmente
-
-### Pré-requisitos
-
-- Node.js instalado
-- MySQL instalado e rodando
-
-### Backend
-
-```bash
-cd backend
-npm install
-npm start
-```
-
-O servidor irá rodar em:
+## 🔄 Arquitetura da Aplicação
 
 ```
-http://localhost:8800
+Frontend (React / Vercel)
+        ↓
+Backend (Node.js + Express / Render)
+        ↓
+Banco de Dados (MySQL / Railway)
 ```
 
-### Frontend
-
-```bash
-cd client
-npm install
-npm run dev
-```
-
-A aplicação ficará disponível em:
-
-```
-http://localhost:5173
-```
+O frontend consome a API REST criada no backend, que por sua vez se comunica com o banco de dados MySQL hospedado no Railway.
 
 ---
 
-## 🧠 Aprendizados
+## 📦 API — Principais Endpoints
 
-Projeto criado com o objetivo de:
-
-- Consolidar conceitos de **CRUD**
-- Praticar comunicação entre **frontend e backend**
-- Trabalhar com **API REST**
-- Utilizar **MySQL** em uma aplicação real
-- Organizar um projeto **full stack** para portfólio
+| Método | Rota       | Descrição              |
+| ------ | ---------- | ---------------------- |
+| GET    | /books     | Lista todos os livros  |
+| POST   | /books     | Adiciona um novo livro |
+| PUT    | /books/:id | Atualiza um livro      |
+| DELETE | /books/:id | Remove um livro        |
 
 ---
 
-## 📌 Observações
+## 🎯 Objetivo do Projeto
 
-- As capas dos livros são armazenadas como **URLs**, não como arquivos físicos.
-- O preço dos livros é armazenado no banco como `DECIMAL(10,2)`.
+Este projeto foi desenvolvido com foco em:
+
+- Consolidar conhecimentos em **desenvolvimento full‑stack**
+- Trabalhar com **integração real entre frontend e backend**
+- Realizar **deploy em produção**
+- Criar um projeto sólido para **portfólio profissional**
 
 ---
 
 ## 👨‍💻 Autor
 
-Projeto desenvolvido por **Jefferson Rizzetto** 🚀
+**Jefferson Rizzetto**
+Desenvolvedor Web
 
 ---
 
-Se você gostou do projeto, deixe uma ⭐ no repositório!
+## 📌 Observações
+
+Este projeto está em constante evolução e pode receber melhorias como:
+
+- Autenticação de usuários
+- Validações mais avançadas
+- Melhorias de UI/UX
+- Paginação e filtros
+
+---
+
+⭐ Se você gostou do projeto, fique à vontade para deixar uma estrela no repositório!
