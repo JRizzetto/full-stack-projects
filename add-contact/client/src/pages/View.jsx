@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./View.css";
+import api from "../services/api";
 
 const View = () => {
   const [user, setUser] = useState({});
@@ -9,9 +9,7 @@ const View = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/get/${id}`)
-      .then((resp) => setUser({ ...resp.data[0] }));
+    api.get(`/api/get/${id}`).then((resp) => setUser({ ...resp.data[0] }));
   }, [id]);
 
   return (

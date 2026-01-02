@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import { toast } from "react-toastify";
-import axios from "axios";
+import api from "../services/api";
 
 const Home = () => {
   const [data, setData] = useState([]);
 
   const loadData = async () => {
-    const response = await axios.get("http://localhost:5000/api/get");
+    const response = await api.get("/api/get");
     setData(response.data);
   };
 
@@ -20,7 +20,7 @@ const Home = () => {
     if (
       window.confirm("Are you sure that you wanted to delete that contact?")
     ) {
-      axios.delete(`http://localhost:5000/api/remove/${id}`);
+      api.delete(`/api/remove/${id}`);
       toast.success("Contact Deleted Successfully");
       setTimeout(() => loadData(), 500);
     }

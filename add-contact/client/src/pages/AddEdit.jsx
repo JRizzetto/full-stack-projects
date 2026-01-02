@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./AddEdit.css";
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../services/api";
 
 const initialState = {
   name: "",
@@ -20,9 +20,7 @@ const AddEdit = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/get/${id}`)
-      .then((resp) => setState({ ...resp.data[0] }));
+    api.get(`/api/get/${id}`).then((resp) => setState({ ...resp.data[0] }));
   }, [id]);
 
   const handleSubmit = (e) => {
@@ -31,8 +29,8 @@ const AddEdit = () => {
       toast.error("Pelase provide value into each input field");
     } else {
       if (!id) {
-        axios
-          .post("http://localhost:5000/api/post", {
+        api
+          .post("/api/post", {
             name,
             email,
             contact,
@@ -43,8 +41,8 @@ const AddEdit = () => {
           .catch((err) => toast.error(err.response.data));
         toast.success("Contact Added Successfully");
       } else {
-        axios
-          .put(`http://localhost:5000/api/update/${id}`, {
+        api
+          .put(`/api/update/${id}`, {
             name,
             email,
             contact,
