@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import "./AddEdit.css";
+import "./addEdit.css";
 import { toast } from "react-toastify";
 import api from "../services/api";
 
