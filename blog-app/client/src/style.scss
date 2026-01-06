@@ -75,12 +75,171 @@ $lighGreen: #b9e7e7;
       .container {
         padding: 10px 0px;
         display: flex;
+        align-items: center;
         justify-content: space-between;
-
         .logo {
+          img {
+            width: 120px;
+          }
         }
         .links {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          h6 {
+            font-size: 16px;
+            font-weight: 300;
+          }
+
+          span {
+            cursor: pointer;
+          }
+
+          .write {
+            background-color: $lighGreen;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 300;
+
+            &:hover {
+              width: 48px;
+              height: 48px;
+              color: teal;
+              background-color: white;
+              border: 1px solid teal;
+            }
+          }
         }
+      }
+    }
+
+    // FOOTER
+    footer {
+      margin-top: 100px;
+      padding: 20px;
+      background-color: $lighGreen;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      img {
+        height: 50px;
+      }
+    }
+
+    // HOME PAGE
+
+    .home {
+      .posts {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 150px;
+      }
+
+      .post {
+        display: flex;
+        gap: 100px;
+
+        &:nth-child(2n + 1) {
+          flex-direction: row-reverse;
+        }
+
+        .img {
+          flex: 2;
+          position: relative;
+
+          &:after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background-color: $lighGreen;
+            position: absolute;
+            top: 20px;
+            left: -20px;
+            z-index: -1;
+          }
+
+          img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+          }
+        }
+
+        .content {
+          flex: 3;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          h1 {
+            font-size: 48px;
+          }
+
+          p {
+            font-size: 18px;
+          }
+
+          button {
+            width: max-content;
+            padding: 10px 20px;
+            border: navajowhite;
+            cursor: pointer;
+            background-color: white;
+            border: 1px solid teal;
+            color: teal;
+
+            &:hover {
+              border: 1px solid white;
+              background-color: $lighGreen;
+              color: black;
+            }
+          }
+        }
+      }
+    }
+
+    // SIGLE PAGE
+
+    .single {
+      display: flex;
+      gap: 50px;
+
+      .content {
+        flex: 5;
+
+        img {
+          width: 70%;
+          height: 300px;
+          object-fit: cover;
+        }
+
+        .user {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 14px;
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          span {
+            font-weight: bold;
+          }
+        }
+      }
+
+      .menu {
+        flex: 2;
       }
     }
   }
