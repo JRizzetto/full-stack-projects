@@ -7,6 +7,8 @@ import Write from "./pages/Write";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./style.scss";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const Layout = () => {
   return (

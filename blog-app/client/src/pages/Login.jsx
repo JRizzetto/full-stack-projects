@@ -14,9 +14,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { currentUser } = useContext(AuthContext);
-
-  console.log(currentUser);
+  const { login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -25,6 +23,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      await login(inputs);
       navigate("/");
     } catch (err) {
       setError(err.response.data);
