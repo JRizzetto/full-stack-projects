@@ -23,7 +23,10 @@ const upload = multer({ storage });
 
 app.post("/api/upload", upload.single("file"), function (req, res) {
   const file = req.file;
-  res.status(200).json(file.filename);
+  // Retorne o caminho COMPLETO
+  const fullPath = `/upload/${file.filename}`;
+  console.log("Upload retornando:", fullPath);
+  res.status(200).json(fullPath); // ← Agora retorna "/upload/nome.jpg"
 });
 
 app.use("/api/auth", authRouts);
