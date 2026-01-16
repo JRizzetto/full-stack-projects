@@ -46,7 +46,7 @@ const Menu = ({ cat }) => {
 
   return (
     <div className="menu">
-      <h1>other posts you may like</h1>
+      <h1>Outros assuntos que você pode gostar</h1>
       {posts.map((post) => (
         <div className="post" key={post.id}>
           <img src={`../${post?.img}`} alt="" />

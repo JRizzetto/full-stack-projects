@@ -16,13 +16,13 @@ const Navbar = () => {
         </div>
         <div className="links">
           <Link className="link" to="/?cat=art">
-            <h6>ART</h6>
+            <h6>ARTE</h6>
           </Link>
           <Link className="link" to="/?cat=science">
-            <h6>SCIENCE</h6>
+            <h6>CIÊNCIAS</h6>
           </Link>
           <Link className="link" to="/?cat=technology">
-            <h6>TECHNOLOGY</h6>
+            <h6>TECNOLOGIA</h6>
           </Link>
           <Link className="link" to="/?cat=cinema">
             <h6>CINEMA</h6>
@@ -31,7 +31,7 @@ const Navbar = () => {
             <h6>DESING</h6>
           </Link>
           <Link className="link" to="/?cat=food">
-            <h6>FOOD</h6>
+            <h6>COMIDA</h6>
           </Link>
           <span>{currentUser?.username}</span>
           {currentUser ? (
