@@ -2,6 +2,33 @@ import { db } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+// Add this verify function to your auth.js controller
+export const verify = (req, res) => {
+  const token = req.cookies.access_token;
+
+  if (!token) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  jwt.verify(token, "jwttoken", (err, userInfo) => {
+    if (err) {
+      return res.status(403).json({ message: "Token is not valid" });
+    }
+
+    // PRECISAMOS BUSCAR O USUÁRIO NO BANCO PARA PEGAR O USERNAME
+    const q = "SELECT id, username, email FROM users WHERE id = ?";
+
+    db.query(q, [userInfo.id], (err, data) => {
+      if (err) return res.status(500).json({ message: "Database error" });
+      if (data.length === 0)
+        return res.status(404).json({ message: "User not found" });
+
+      // Agora retorna todos os dados do usuário
+      res.json(data[0]);
+    });
+  });
+};
+
 export const register = (req, res) => {
   // CHECK EXISTING USER
   const q = "SELECT * FROM users WHERE email = ? OR username = ?";

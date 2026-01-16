@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
-import { AuthContext } from "../context/authContext.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 import { useContext } from "react";
 
 const Single = () => {
@@ -56,12 +56,12 @@ const Single = () => {
             <span>{post.username}</span>
             <p>Posted {moment(post.date).fromNow()}</p>
           </div>
-          {currentUser.username === post.username && (
+          {currentUser?.id === post?.uid && (
             <div className="edit">
-              <Link to={`/write?edit=2`} state={post}>
-                <img src={Edit} alt="" />
+              <Link to={`/write?edit=${post.id}`} state={post}>
+                <img src={Edit} alt="Editar" />
               </Link>
-              <img onClick={handleDelete} src={Delete} alt="" />
+              <img onClick={handleDelete} src={Delete} alt="Deletar" />
             </div>
           )}
         </div>

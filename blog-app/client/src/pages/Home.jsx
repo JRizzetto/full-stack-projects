@@ -58,8 +58,8 @@ const Home = () => {
       <div className="posts">
         {posts.map((post) => (
           <div className="post" key={post.id}>
-            <div className="img">
-              <img src={post.img} alt="" />
+            <div className="img-container">
+              <img className="image-wrapper" src={post.img} alt="" />
             </div>
             <div className="content">
               <Link className="link" to={`/post/${post.id}`}>
