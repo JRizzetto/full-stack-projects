@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 function Registration() {
@@ -11,45 +11,49 @@ function Registration() {
   };
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().min(3).max(15).required(),
-    password: Yup.string().min(4).max(20).required(),
+    username: Yup.string()
+      .min(3, "Mínimo de 3 caracteres")
+      .max(15, "Máximo de 15 caracteres")
+      .required("Username obrigatório"),
+    password: Yup.string()
+      .min(4, "Mínimo de 4 caracteres")
+      .max(20, "Máximo de 20 caracteres")
+      .required("Senha obrigatória"),
   });
 
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    axios
-      .post("https://full-stack-post-list.onrender.com/auth", data)
+    api
+      .post("/auth", data)
       .then(() => {
         navigate("/login");
+      })
+      .catch((err) => {
+        console.error("Erro no registro:", err);
+        alert("Erro ao registrar usuário");
       });
   };
 
   return (
-    <div>
+    <div className="formContainer">
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        <Form className="formContainer">
-          <label>Username: </label>
+        <Form className="formBox">
+          <label>Username</label>
           <ErrorMessage name="username" component="span" />
-          <Field
-            autocomplete="off"
-            id="inputCreatePost"
-            name="username"
-            placeholder="(Ex. John123...)"
-          />
+          <Field autoComplete="off" name="username" placeholder="Ex. John123" />
 
-          <label>password: </label>
+          <label>Password</label>
           <ErrorMessage name="password" component="span" />
           <Field
-            autocomplete="off"
+            autoComplete="off"
             type="password"
-            id="inputCreatePost"
             name="password"
-            placeholder="your Password..."
+            placeholder="Sua senha"
           />
 
           <button type="submit">Register</button>

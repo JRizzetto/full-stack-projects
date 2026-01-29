@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("https://full-stack-post-list.onrender.com/auth/auth", {
+      .get("https://full-stack-post-list.onrender.com/auth", {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },

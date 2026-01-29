@@ -1,35 +1,41 @@
 const express = require("express");
-const app = express();
-const cors = require("cors");
 require("dotenv").config();
 
+const app = express();
+const cors = require("cors");
+
 app.use(express.json());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://full-stack-post-list.vercel.app",
+    ],
+    credentials: true,
+  }),
+);
 
 const db = require("./models");
 
-// Routers
-const postRouter = require("./routes/Posts");
-app.use("/posts", postRouter);
-
-const commentsRouter = require("./routes/Comments");
-app.use("/comments", commentsRouter);
-
-const usersRouter = require("./routes/Users");
-app.use("/auth", usersRouter);
-
-const likesRouter = require("./routes/Likes");
-app.use("/likes", likesRouter);
+app.use("/posts", require("./routes/Posts"));
+app.use("/comments", require("./routes/Comments"));
+app.use("/auth", require("./routes/Users"));
+app.use("/likes", require(".//routes/Likes"));
 
 const PORT = process.env.PORT || 3001;
 
 db.sequelize
-  .sync()
+  .authenticate()
   .then(() => {
-    app.listen(process.env.PORT || 3001, () => {
-      console.log(`Server running on port ${PORT}`);
+    console.log("✅ Database connected");
+    return db.sequelize.sync();
+  })
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.log(err);
+    console.error("❌ DB error:", err);
   });

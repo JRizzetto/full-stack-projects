@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 
@@ -11,9 +11,10 @@ function Login() {
   let navigate = useNavigate();
 
   const login = () => {
-    const data = { username: username, password: password };
-    axios
-      .post("https://full-stack-post-list.onrender.com/auth/login", data)
+    const data = { username, password };
+
+    api
+      .post("/auth/login", data)
       .then((response) => {
         if (response.data.error) {
           alert(response.data.error);
@@ -26,26 +27,23 @@ function Login() {
           });
           navigate("/");
         }
+      })
+      .catch((err) => {
+        console.error("Erro no login:", err);
       });
   };
+
   return (
     <div className="loginContainer">
-      <label>Username:</label>
-      <input
-        type="text"
-        onChange={(event) => {
-          setUsername(event.target.value);
-        }}
-      />
-      <label>Password:</label>
-      <input
-        type="password"
-        onChange={(event) => {
-          setPassword(event.target.value);
-        }}
-      />
+      <div className="loginBox">
+        <label>Username:</label>
+        <input type="text" onChange={(e) => setUsername(e.target.value)} />
 
-      <button onClick={login}> Login </button>
+        <label>Password:</label>
+        <input type="password" onChange={(e) => setPassword(e.target.value)} />
+
+        <button onClick={login}>Login</button>
+      </div>
     </div>
   );
 }

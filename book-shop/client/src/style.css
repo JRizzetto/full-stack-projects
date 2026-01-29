@@ -5,87 +5,117 @@
   text-decoration: none;
 }
 
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    sans-serif;
+}
+
 h1 {
   margin-bottom: 30px;
 }
 
+/* CONTAINER PRINCIPAL */
 .App {
-  height: 100vh;
-  padding: 0px 100px;
+  min-height: 100vh;
+  padding: 40px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
 
+/* LISTA DE LIVROS */
 .books {
-  display: flex;
-  gap: 10px;
-}
-
-.book {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-}
-
-img {
-  width: 200px;
-  height: 300px;
-  object-fit: cover;
-  background-color: rgb(203, 238, 227);
-}
-
-.delete {
-  border: none;
-  padding: 3px 6px;
-  background-color: white;
-  cursor: pointer;
-  border: 1px solid;
-  color: rgb(242, 100, 100);
-}
-
-.update {
-  border: none;
-  padding: 3px 6px;
-  background-color: white;
-  cursor: pointer;
-  border: 1px solid;
-  color: rgb(139242, 139, 234);
-  margin-bottom: 10px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
-input {
-  width: 250px;
-  padding: 10px;
-  border: 1px solid gray;
+/* CARD DO LIVRO */
+.book {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #f9fafb;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
+/* IMAGEM */
+img {
+  width: 100%;
+  max-width: 200px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: rgb(203, 238, 227);
+}
+
+/* BOTÕES */
+.delete,
+.update {
+  width: 100%;
+  max-width: 160px;
+  padding: 6px 10px;
+  background-color: white;
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.delete {
+  color: rgb(242, 100, 100);
+  border-color: rgb(242, 100, 100);
+}
+
+.update {
+  color: rgb(139, 139, 234);
+  border-color: rgb(139, 139, 234);
+  margin-bottom: 10px;
+}
+
+/* FORMULÁRIO */
+.form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* INPUTS */
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+/* BOTÃO FORM */
 .formButton {
   border: none;
-  padding: 10px;
+  padding: 12px;
   background-color: rgb(244, 142, 74);
   color: white;
   font-weight: bold;
   cursor: pointer;
+  border-radius: 8px;
 }
 
-button {
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
+/* BOTÃO ADICIONAR LIVRO */
 .addBook {
-  background-color: #4f46e5; /* azul moderno */
+  background-color: #4f46e5;
   color: #fff;
   padding: 10px 18px;
   border-radius: 8px;
@@ -94,12 +124,37 @@ button {
   transition: all 0.2s ease;
 }
 
+/* HOVER */
 button:hover {
   background-color: #4338ca;
   transform: translateY(-2px);
 }
 
+/* TEXTO */
 p {
   text-align: justify;
-  margin: 25px;
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.5;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* quantidade de linhas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  img {
+    height: 240px;
+  }
+
+  .delete,
+  .update {
+    max-width: 100%;
+  }
 }

@@ -47,7 +47,7 @@ function CreatePost() {
           <label>Title: </label>
           <ErrorMessage name="title" component="span" />
           <Field
-            autocomplete="off"
+            autoComplete="off"
             id="inputCreatePost"
             name="title"
             placeholder="(Ex. Title...)"
@@ -55,7 +55,7 @@ function CreatePost() {
           <label>Post: </label>
           <ErrorMessage name="postText" component="span" />
           <Field
-            autocomplete="off"
+            autoComplete="off"
             id="inputCreatePost"
             name="postText"
             placeholder="(Ex. Post...)"
